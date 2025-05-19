@@ -9,7 +9,7 @@ $resulton = mysqli_query($conn, $sqlon);
 $sql= "SELECT * FROM employe WHERE employeEmail = '$email'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
-
+date_default_timezone_set('Asia/Kolkata'); 
 $dateToday = date('Y-m-d');
 $timeNow = date('Y-m-d H:i:s');
 $emoloyeid = $row['employeId'];

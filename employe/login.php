@@ -10,25 +10,34 @@ if(isset($_POST['login'])) {
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     if (mysqli_num_rows($result) > 0) {
+        
         $_SESSION['employeEmail'] = $email;
         $_SESSION['employeId'] = $row['employeId'];
         $sqlon="UPDATE employe SET status ='1' WHERE employeEmail = '$email'";
         $resulton = mysqli_query($conn, $sqlon);
 
         $emoloyeid = $row['employeId'];
-        
-$dateToday = date('Y-m-d');
-$timeNow = date('H:i:s');
 
-// Check if entry exists for today
+        $sqllogin ="INSERT INTO emoplyelogin (employeid) VALUES ('$emoloyeid')";
+        $sqlloginresult = mysqli_query($conn, $sqllogin);
+        if ($sqlloginresult) {
+            echo "Logout successfully";
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        } 
+ 
+date_default_timezone_set('Asia/Kolkata'); 
+
+$dateToday = date('Y-m-d');
 $check = "SELECT * FROM employeloginnew WHERE employeid = '$emoloyeid' AND logindate = '$dateToday'";
 $checkResult = mysqli_query($conn, $check);
 
 if (mysqli_num_rows($checkResult) == 0) {
     // First login of the day
-    $insert = "INSERT INTO employeloginnew (employeid, logindate, first_login) VALUES ('$emoloyeid', '$dateToday', '$timeNow')";
+    $insert = "INSERT INTO employeloginnew (employeid, logindate) VALUES ('$emoloyeid', '$dateToday')";
     mysqli_query($conn, $insert);
 }
+
 
 
 
@@ -106,8 +115,7 @@ if (mysqli_num_rows($checkResult) == 0) {
     <label for="password">Password:</label>
     <input type="password" name="password" id="password" required>
 
-    <input type="submit" name="login" value="Login">
-    <a href="signup.php">Register</a>
+    <input type="submit" name="login" value="Login">   
 
     
 </form>

@@ -129,9 +129,7 @@ if(isset($_GET['employeid'])) {
         }
     }
 }
-?>
-
-    <a href="logout.php" class="logout-btn">Logout</a>
+?>   
     <a href="dashboard.php" class="logout-btn">Back to Dashboard</a>
 </div>
 

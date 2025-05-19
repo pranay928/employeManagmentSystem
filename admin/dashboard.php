@@ -85,6 +85,7 @@ if(!isset($_SESSION['email'])) {
 <body>
     <h1>dashboard</h1>
     <h2>Welcome to the Admin Dashboard</h2>
+   <button type="button"> <a href="../employe/signup.php">Add Employe</a></button>
 
     <hr><hr>
     <h2>Employe List</h2>
@@ -119,22 +120,25 @@ if(!isset($_SESSION['email'])) {
   <div>
     <hr><hr>
     <h2>Employe present</h2>
-    <?php 
-    $dateTodaypr= date("y-m-d");    
-    $sqlpr="SELECT * FROM employeloginnew WHERE logindate= '$dateTodaypr'";
-    $resultpr = mysqli_query($conn, $sqlpr);
-    $rowpr= mysqli_fetch_assoc($resultpr);
-    $employeidpr = $rowpr['employeid'];
-    $sqlemp ="SELECT * FROM employe WHERE employeid ='$employeidpr'";
-    $resultemp = mysqli_query($conn, $sqlemp);
-    ?>
+   
     <table>
        <tr>
         <th>Name</th>
         <th>email</th>
         <th>role</th>
         <th>active(0)| inactive (1)</th>
+        <th>logIn details </th>
         </tr>
+        <?php 
+
+        $dateTodaypr= date("y-m-d");    
+        $sqlpr="SELECT * FROM employeloginnew WHERE logindate= '$dateTodaypr'";
+        $resultpr = mysqli_query($conn, $sqlpr);
+        while ($rowpr= mysqli_fetch_assoc($resultpr)) {
+        $employeidpr = $rowpr['employeid'];
+        $sqlemp ="SELECT * FROM employe WHERE employeid ='$employeidpr'";
+        $resultemp = mysqli_query($conn, $sqlemp);
+        ?>
         <?php 
         while($rowemp = mysqli_fetch_assoc($resultemp)) {
             ?>
@@ -142,18 +146,14 @@ if(!isset($_SESSION['email'])) {
                 <td><?php echo $rowemp['employeName']; ?></td>
                 <td><?php echo $rowemp['employeEmail']; ?></td>
                 <td><?php echo $rowemp['profession']; ?></td>                
-                <td><?php echo $rowemp['status']; ?></td>                
+                <td><?php echo $rowemp['status']; ?></td> 
+                <td><a href="logindetails.php?employeid=<?php echo $rowemp['employeId']; ?>"><button type="button">details</button></a> </td>               
             </tr>
             <?php
-        }
+        }};
         ?>
         </table>
-
-    
-
-    
-    
-    
+        <hr><hr>
     
   
 
@@ -168,7 +168,7 @@ if(!isset($_SESSION['email'])) {
             <th>Employe Name</th>
             <th>Position</th>            
             <th>date of joining</th>
-            <th>logIn details </th>
+            
         </tr>
         <?php 
         while($rowactive = mysqli_fetch_assoc($resultactive)) {
@@ -178,7 +178,7 @@ if(!isset($_SESSION['email'])) {
                 <td><?php echo $rowactive['employeName']; ?></td>
                 <td><?php echo $rowactive['profession']; ?></td>                
                 <td><?php echo $rowactive['date']; ?></td>
-                <td><a href="logindetails.php?employeid=<?php echo $rowactive['employeId']; ?>"><button type="button">details</button></a> </td>
+                
             </tr>
             <?php
         }
